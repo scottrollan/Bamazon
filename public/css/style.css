@@ -1,0 +1,23 @@
+.navbar {
+    margin: 0 15%;
+}
+
+.navbar-brand,
+.navbar-link,
+.btn {
+    margin-left: 12px;
+    margin-right: 12px;
+}
+
+.navbar-brand {
+    margin-left: 0;
+}
+.navbar-toggle {
+    margin-right: 0;
+}
+
+.card {
+    margin-top: 2%;
+    margin-bottom: 2%;
+    width: 70%;
+}
