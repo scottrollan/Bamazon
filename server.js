@@ -15,9 +15,8 @@ app.use(express.static(path.join(__dirname, './public')));
 
 
 // need api routing for interacting withe back-end
-require('./routes/api-Routes.js')(app);
-require('./routes/html-Routes.js')(app);
-
+require('./routes/api-routes.js')(app);
+require('./routes/html-routes.js')(app);
 
 db.sequelize.sync().then(function(){
     app.listen(PORT, function () {
