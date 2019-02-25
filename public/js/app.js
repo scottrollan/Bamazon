@@ -1,35 +1,45 @@
-console.log("is this thing on?");
 
 $(function(){
   let cartTotal = 0;
   let cartItems = [];
-  let timeInterval;
-  //hides modal and clears rows before get(./api/products)
+  let timeInterval; //used on line 77
+
+
+  //hides modal and clears rows
   const render = function(items){
+    console.log(items, "these should be our items")
     $('modal').modal('hide');
     $('#sale-items').empty();
 
     items.forEach(function(item){
       $('#sale-items').append(buildItemRow(item));
-    })
+    });
   }
+
+  //gets items from api/products list
   const getItems = function() {
     $.get('/api/products').then(render);
   }
+
+
+  //create a row, where <tr>=tr, for each item in api/products
   const buildItemRow = function(item) {
     const tr = $('<tr>');
-
+    
+    //creates input field for row
     const input = $('<input>').attr({
       type: 'number',
       min: 0,
-      id: item.id
+      id: item.id //#
     });
 
+    //creates add-to-cart button with above input as number to add
     const button = $('<button>')
     .addClass('btn btn-warning add-to-cart')
     .text('Add to Cart')
-    .attr('data-id', item.id);
+    .attr('data-id', item.id); //ALVARO help!!
 
+    //appends above 2 cols along with api/products data onto table row 
     tr.append (
       $('<td>').append(input),
       $('<td>').text(item.product_name),
@@ -39,11 +49,12 @@ $(function(){
     );
     return tr;
   }
+  //end main page setup
 
   const addCartRow = function(qty, item) {
     const itemTotal = item.price * qty;
     
-    cartTotal = itemTotal;
+    cartTotal += itemTotal;
     item.stock_quantity -= qty;
     cartItems.push(item);
     const tr = $('<tr>').addClass(`cart-${item.id}`);
@@ -62,31 +73,35 @@ $(function(){
 
 
   const message = function(type, text){
-    $('#message').addClass(`alert alert-${type}`).text(text);
-    //messages only appear for 3 seconds
+    $('#messages').addClass(`alert alert-${type}`).text(text).modal('show');
+    //messages only appears for 3 seconds
     timeInterval = setTimeout(clearMessages, 3000)
   }
 
   const clearMessages = function() {
-    $('#message').empty().removeClass();
+    $('#messages').empty().removeClass();
   }
 
   const addItemToCart = function() {
+    
     clearMessages();
     const id = $(this).attr('data-id');
-    $get(`api/products/${id}`).then(updateCart);
+    $.get(`/api/products/${id}`).then(updateCart);
   }
 
   const updateCart = function(data) {
-    const numRequested = $(`#${data-id}`).val();
+    console.log(data, "data from cart")
+    const numRequested = $(`#${data.id}`).val(); //if not item.id, then what?????
 
     if (numRequested > data.stock_quantity) {
       message('danger', `Sorry. We only have ${data.stock_quantity} in stock.`);
     }else {
+      console.log(numRequested, " num requested")
       addCartRow(numRequested, data);
-      message('success', 'Items successfully added to cart.');
-      $(`#${data-id}`).val('');
+     // message('success', 'Items successfully added to cart.');
+      $(`#${data.id}`).val('');
     }
+    //$('#messages').modal('show');
   }
 
   const checkout = function() {
@@ -97,11 +112,12 @@ $(function(){
         data: item
       });
     });
+    location.reload();
   }
 
   getItems();
 
-  $('#sale-items').on('click', '.add-to-cart', addItemToCart);
+  $(document).on('click','.add-to-cart', addItemToCart); //line 84 -- ALVARO
   $('#checkout').on('click', checkout);
   $('#close').on('click', getItems);
 })
