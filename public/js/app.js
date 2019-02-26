@@ -43,6 +43,7 @@ $(function(){
     tr.append (
       $('<td>').append(input),
       $('<td>').text(item.product_name),
+      $('<td>').text(item.department_name),
       $('<td>').text(item.stock_quantity),
       $('<td>').text(`$${item.price}`),
       $('<td>').append(button)
