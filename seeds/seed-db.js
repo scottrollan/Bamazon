@@ -65,7 +65,9 @@ const items = [
 db.sequelize.sync({force: true}).then(function(){
     db.Product.bulkCreate(items).then(function(rows) {
         console.log('\n\nINSERT\n\n');
-    }).catch(function(err) {
+        db.sequelize.close();
+    })
+    .catch(function(err) {
         console.log('\n\nError: ', err);
     });
 });
