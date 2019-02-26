@@ -39,7 +39,7 @@ const items = [
     {
         product_name: "Citrus Magic All-Purpose Cleaner",
         department_name: "Home Goods",
-        price: 59.99,
+        price: 5.99,
         stock_quantity: 125
     },
     {

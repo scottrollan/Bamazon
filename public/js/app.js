@@ -37,7 +37,7 @@ $(function(){
     const button = $('<button>')
     .addClass('btn btn-warning add-to-cart')
     .text('Add to Cart')
-    .attr('data-id', item.id); //ALVARO help!!
+    .attr('data-id', item.id); 
 
     //appends above 2 cols along with api/products data onto table row 
     tr.append (
@@ -60,20 +60,19 @@ $(function(){
     const tr = $('<tr>').addClass(`cart-${item.id}`);
 
     tr.append(
-      $('<td>').text(qty),
       $('<td>').text(item.product_name),
+      $('<td>').text(qty),
       $('<td>').text(`$${item.price}`),
       $('<td>').text(`$${itemTotal.toFixed(2)}`)
     );  
 
     $('#cart-items').append(tr);
-    $('.cart-total').text(`$${cartTotal.toFixed(2)}`);
-
+    $('.totalCart').text(`Purchase Total: $${cartTotal.toFixed(2)}`)
   }
 
 
   const message = function(type, text){
-    $('#messages').addClass(`alert alert-${type}`).text(text).modal('show');
+    $('#messages').addClass(`alert alert-${type}`).text(text).show();
     //messages only appears for 3 seconds
     timeInterval = setTimeout(clearMessages, 3000)
   }
@@ -94,14 +93,16 @@ $(function(){
     const numRequested = $(`#${data.id}`).val(); //if not item.id, then what?????
 
     if (numRequested > data.stock_quantity) {
-      message('danger', `Sorry. We only have ${data.stock_quantity} in stock.`);
+      message('danger', `Sorry. We only have ${data.stock_quantity} in stock. Quantity has been changed to ${data.stock_quantity}. Click "Add to Cart" to order`);
+      $(`#${data.id}`).val(data.stock_quantity);
+
     }else {
       console.log(numRequested, " num requested")
       addCartRow(numRequested, data);
-     // message('success', 'Items successfully added to cart.');
+     message('success', 'Items successfully added to cart.');
       $(`#${data.id}`).val('');
     }
-    //$('#messages').modal('show');
+    $('#messages').show();
   }
 
   const checkout = function() {
@@ -117,7 +118,7 @@ $(function(){
 
   getItems();
 
-  $(document).on('click','.add-to-cart', addItemToCart); //line 84 -- ALVARO
+  $(document).on('click','.add-to-cart', addItemToCart); 
   $('#checkout').on('click', checkout);
   $('#close').on('click', getItems);
 })

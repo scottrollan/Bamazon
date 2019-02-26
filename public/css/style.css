@@ -1,5 +1,15 @@
+body {
+    background-color: #ffffff;
+    background-image: url("./images/square_bg_@2X.png");
+}
+
 .navbar {
     margin: 0 15%;
+    background-color: transparent;
+}
+
+.navbar>li>a:hover, .navbar>li>a:focus {
+    background-color: transparent;
 }
 
 .navbar-brand,
@@ -26,6 +36,21 @@ input {
     align-content: center;
 }
 #qtyRow {
-    width: 5%;
-    align-content: center;
+    text-align: center;
+
+}
+
+.totalCart {
+    text-align: right;
+    padding: 5%;
+    font-style: bold;
+}
+
+@media only screen and (max-width: 600px) {
+
+    .add-to-cart {
+
+    }
+
+
 }
