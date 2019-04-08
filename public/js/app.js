@@ -90,7 +90,6 @@ $(function(){
   }
 
   const updateCart = function(data) {
-    console.log(data, "data from cart")
     const numRequested = $(`#${data.id}`).val(); //if not item.id, then what?????
 
     if (numRequested > data.stock_quantity) {
